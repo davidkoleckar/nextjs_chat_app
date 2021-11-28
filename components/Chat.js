@@ -16,7 +16,6 @@ function Chat({id, users}) {
 
     useEffect(() => {
         onSnapshot(recipientQuery, (snapshot) => {
-            console.log(snapshot.docs[0])
             setRecipient(snapshot.docs?.[0]?.data())
         })
     }, [])
@@ -31,7 +30,7 @@ function Chat({id, users}) {
                 recipient ? (
                     <UserAvatar src={recipient?.photoURL}/>
                 ) : (
-                    <UserAvatar src={recipientEmail[0]}/>
+                    <UserAvatar>{recipientEmail[0]}</UserAvatar>
                 )
             }
             <p>{recipientEmail}</p>
