@@ -1,3 +1,5 @@
+# Let's build Whatsapp 2.0 with NEXT.JS! (1-1 Messaging, Live Status, Styled-Components, React.JS)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
