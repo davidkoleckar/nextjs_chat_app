@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prettier": "prettier --write components/"
+    "prettier": "prettier --write components/ pages/"
   },
   "dependencies": {
     "@emotion/react": "^11.7.0",
