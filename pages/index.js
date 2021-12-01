@@ -11,8 +11,6 @@ export default function Home() {
             </Head>
 
             <Sidebar />
-
-            <h1>Lets build chat app</h1>
         </div>
     );
 }

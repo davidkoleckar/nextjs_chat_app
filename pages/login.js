@@ -1,18 +1,17 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import Head from "next/head";
-import Button from '@mui/material/Button';
-import { auth, provider } from '../firebase-config';
+import Button from "@mui/material/Button";
+import { auth, provider } from "../firebase-config";
 import { signInWithPopup } from "firebase/auth";
 
 function Login() {
-
     const signIn = () => {
         try {
-            signInWithPopup(auth, provider)
+            signInWithPopup(auth, provider);
         } catch (e) {
-            console.log(e.code, e.message)
+            console.log(e.code, e.message);
         }
-    }
+    };
 
     return (
         <Container>
@@ -21,13 +20,13 @@ function Login() {
             </Head>
 
             <LoginContainer>
-                <Logo 
-                    src="http://assets.stickpng.com/images/580b585b2edbce24c47b23f0.png"
-                />
-                <Button onClick={signIn} variant="outlined">Sign in with Google</Button>
+                <Logo src="http://assets.stickpng.com/images/580b585b2edbce24c47b23f0.png" />
+                <Button onClick={signIn} variant="outlined">
+                    Sign in with Google
+                </Button>
             </LoginContainer>
         </Container>
-    )
+    );
 }
 
 export default Login;

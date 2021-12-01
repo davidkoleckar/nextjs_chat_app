@@ -1,68 +1,83 @@
-import { Avatar, Button, IconButton } from '@mui/material';
-import styled from 'styled-components';
-import ChatIcon from '@mui/icons-material/Chat';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import SearchIcon from '@mui/icons-material/Search';
+import { Avatar, Button, IconButton } from "@mui/material";
+import styled from "styled-components";
+import ChatIcon from "@mui/icons-material/Chat";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import SearchIcon from "@mui/icons-material/Search";
 import * as EmailValidator from "email-validator";
-import { auth, db } from '../firebase-config';
+import { auth, db } from "../firebase-config";
 import { signOut } from "firebase/auth";
-import { addDoc, collection, query, where, getDocs, onSnapshot } from "firebase/firestore"; 
-import { useAuthState } from 'react-firebase-hooks/auth';
-import Chat from './Chat';
-import {useState, useEffect} from "react";
+import {
+    addDoc,
+    collection,
+    query,
+    where,
+    getDocs,
+    onSnapshot,
+} from "firebase/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
+import Chat from "./Chat";
+import { useState, useEffect } from "react";
 
 const Sidebar = () => {
     const [user] = useAuthState(auth);
-    const userChatRef = query(collection(db, "chats"), where("users", 'array-contains', user.email));
+    const userChatRef = query(
+        collection(db, "chats"),
+        where("users", "array-contains", user.email)
+    );
     const [chats, setChats] = useState([]);
 
     useEffect(() => {
         onSnapshot(userChatRef, (snapshot) => {
-            setChats(snapshot.docs)
-        })
-    }, [])
+            setChats(snapshot.docs);
+        });
+    }, []);
 
     const createChat = () => {
-        const input = prompt('Please enter an email for the use you wish to chat with.')
-    
-        if(!input) return null;
-        getChats(input).then(chats => {
+        const input = prompt(
+            "Please enter an email for the use you wish to chat with."
+        );
+
+        if (!input) return null;
+        getChats(input).then((chats) => {
             const exists = chatAlreadyExists(chats, input);
-            
-            if(
-                EmailValidator.validate(input) && 
-                !exists && 
+
+            if (
+                EmailValidator.validate(input) &&
+                !exists &&
                 input !== user.email
             ) {
-                console.log("add")
+                console.log("add");
                 //add chat into the DB chats collection
                 addDoc(collection(db, "chats"), {
                     users: [user.email, input],
                 });
             }
         });
-
-    }
+    };
 
     const getChats = async () => getDocs(userChatRef);
 
-    const chatAlreadyExists = (chats, recipientEmail) => 
-        !!chats.docs.find((chat) =>
-            chat.data().users.find((user) => user === recipientEmail)?.length > 0
-        )
+    const chatAlreadyExists = (chats, recipientEmail) =>
+        !!chats.docs.find(
+            (chat) =>
+                chat.data().users.find((user) => user === recipientEmail)
+                    ?.length > 0
+        );
 
     const signOutHandler = () => {
-        signOut(auth).then(() => {
-            // Sign-out successful.
-          }).catch((error) => {
-            console.log(error)
-          });
-    }
+        signOut(auth)
+            .then(() => {
+                // Sign-out successful.
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
     return (
         <Container>
             <Header>
-                <UserAvatar src={user.photoURL} onClick={signOutHandler}/>
+                <UserAvatar src={user.photoURL} onClick={signOutHandler} />
 
                 <IconsContainer>
                     <IconButton>
@@ -77,27 +92,26 @@ const Sidebar = () => {
 
             <Search>
                 <SearchIcon />
-                <SearchInput placeholder="Search in chats"/>
+                <SearchInput placeholder="Search in chats" />
             </Search>
 
             <SideBarButton onClick={createChat}>Start a new chat</SideBarButton>
 
             {/* List of chats */}
 
-            {
-                chats.map((chat) => 
-                    <Chat key={chat.id} id={chat.id} users={chat.data().users}/>
-                )
-            }
+            {chats.map((chat) => (
+                <Chat key={chat.id} id={chat.id} users={chat.data().users} />
+            ))}
         </Container>
-    )
-}
+    );
+};
 
 export default Sidebar;
 
 const SideBarButton = styled(Button)`
     width: 100%;
-    &&& { //increase priority
+    &&& {
+        //increase priority
         border-bottom: 1px solid whitesmoke;
         border-top: 1px solid whitesmoke;
     }
@@ -116,7 +130,20 @@ const Search = styled.div`
     border-radius: 2px;
 `;
 
-const Container = styled.div``;
+const Container = styled.div`
+    flex: 0.45;
+    border-right: 1px solid whitesmoke;
+    height: 100vh;
+    min-width: 300px;
+    max-width: 350px;
+    overflow-y: scroll;
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    scrollbar-width: none;
+`;
 
 const Header = styled.div`
     display: flex;
@@ -139,5 +166,4 @@ const UserAvatar = styled(Avatar)`
     }
 `;
 
-const IconsContainer = styled.div`
-`;
+const IconsContainer = styled.div``;

@@ -6,7 +6,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prettier": "prettier --write pages/"
+    "prettier": "prettier --write components/"
   },
   "dependencies": {
     "@emotion/react": "^11.7.0",
@@ -14,13 +14,16 @@
     "@mui/icons-material": "^5.2.0",
     "@mui/material": "^5.2.1",
     "babel-preset-next": "^1.4.0",
+    "date-fns": "^2.27.0",
+    "dotenv": "^10.0.0",
     "email-validator": "^2.0.4",
     "firebase": "^9.5.0",
     "next": "12.0.4",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-firebase-hooks": "^4.0.1",
-    "styled-components": "^5.3.3"
+    "styled-components": "^5.3.3",
+    "timeago-react": "^3.0.4"
   },
   "devDependencies": {
     "babel-plugin-styled-components": "^2.0.1",
